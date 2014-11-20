@@ -18,7 +18,7 @@ int main() {
 		fgets(input, sizeof(input) / sizeof(char), stdin);
 		if (strchr(input, '\n') != NULL) {*strchr(input, '\n') = NULL;}
 		printf("%s\n", input);
-		if (strcmp(input, "exit")) {return 0;}
+		if (strcmp(input, "exit") == 0) {return 0;}
 	}
 	return 0;
 }
