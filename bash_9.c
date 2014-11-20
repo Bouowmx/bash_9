@@ -8,20 +8,17 @@
 int main() {
 	printf("Welcome to Bash ⑨. Authored by Cirno. Expect the strongest and the best.\n");
 	char computer_name[HOST_NAME_MAX + 1];
-	gethostname(computer_name, sizeof(computer_name) / sizeof(char));
-	printf("%s\n", getenv("HOME"));
-	chdir(getenv("HOME")); //Change current directory to home, or if it cannot, the current directory remains the directory of the executable.
-	//printf("Error %i: %s\n", errno, strerror(errno));
 	char current_directory[PATH_MAX + 1];
-	current_directory = getcwd(current_directory, PATH_MAX);
-	printf("%s@%s:%s$", getlogin(), computer_name, current_directory);
-	printf("\n");
-	free(current_directory);
-	/*
+	chdir(getenv("HOME"));
+	char input[1024 + 1];
 	while (1) {
-		char input[1024 + 1];
+		gethostname(computer_name, sizeof(computer_name) / sizeof(char));
+		getcwd(current_directory, PATH_MAX);
+		printf("%s@%s:%s⑨ ", getlogin(), computer_name, current_directory);
 		fgets(input, sizeof(input) / sizeof(char), stdin);
-		char
-	*/
+		if (strchr(input, '\n') != NULL) {*strchr(input, '\n') = NULL;}
+		printf("%s\n", input);
+		if (strcmp(input, "exit")) {return 0;}
+	}
 	return 0;
 }
