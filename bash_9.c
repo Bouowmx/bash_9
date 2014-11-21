@@ -33,6 +33,7 @@ int main() {
 			input_2 = strdup(input);
 			strsep(&input_2, " ");
 			chdir(strsep(&input_2, " \n"));
+			if (errno != 0) {printf("%s\n", strerror(errno));}
 		}
 		if (strcmp(input, "exit") == 0) {return 0;}
 	}
