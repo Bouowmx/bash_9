@@ -14,7 +14,7 @@ int main() {
 	char current_directory[PATH_MAX];
 	char input[1024];
 	char * input_2;
-	int i = 0;
+	int i, j;
 	while (1) {
 		user = getpwuid(getuid())->pw_name;
 		gethostname(computer_name, sizeof(computer_name) / sizeof(char));
@@ -22,7 +22,12 @@ int main() {
 		printf("%s@%s:%s⑨ ", user, computer_name, current_directory);
 		fgets(input, sizeof(input) / sizeof(char), stdin);
 		input_2 = strdup(input);
-		
+		char * input_2_pointer = input_2; //Used to free later
+		for (i = 0, j = 0; j < strlen(input_2); i++) {
+			if (isspace(input_2[j])) {j++;}
+			else {input[i++] = input_2[j++];}
+		}
+		//Remove trailing		
 		printf("Input: %s\n", input);
 		if ((input[0] == 'c') && (input[1] == 'd')) {
 			input_2 = strdup(input);
