@@ -13,7 +13,6 @@ int main() {
 	char current_directory[PATH_MAX];
 	//chdir(getenv("HOME"));
 	char input[1024];
-	char buffer[1024];
 	while (1) {
 		user = getpwuid(getuid())->pw_name;
 		gethostname(computer_name, sizeof(computer_name) / sizeof(char));
@@ -24,16 +23,15 @@ int main() {
 		printf("Input: %s\n", input);
 		if ((input[0] == 'c') && (input[1] == 'd')) {
 			printf("Changing directory.\n");
-			FILE * pipe = popen(strcat(input, "; pwd"), "r");
-			while (fgets(buffer, sizeof(buffer) / sizeof(char), pipe) != NULL) {printf("%s", buffer);}
-			pclose(pipe);
-			pipe = popen("pwd", "r");
-			fgets(current_directory, sizeof(current_directory) / sizeof(char), pipe);
-			printf("%s", current_directory);
-			chdir(current_directory); //Error
-			printf("4Error %i: %s\n", errno, strerror(errno));
+			char * input_2 = strdup(input);
+			strsep(&input_2, " ");
+			char * directory = strsep(&input_2, " \n");
+			printf("Changing to: \"%s\"\n", directory);
+			chdir(directory);
+			printf("Error %i: %s\n", errno, strerror(errno));
 		}
 		if (strcmp(input, "exit") == 0) {return 0;}
 	}
 	return 0;
 }
+
