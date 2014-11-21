@@ -24,7 +24,7 @@ int main() {
 		printf("Input: %s\n", input);
 		if ((input[0] == 'c') && (input[1] == 'd')) {
 			printf("Changing directory.\n");
-			FILE * pipe = popen(input, "r");
+			FILE * pipe = popen(strcat(input, "; pwd"), "r");
 			while (fgets(buffer, sizeof(buffer) / sizeof(char), pipe) != NULL) {printf("%s", buffer);}
 			pclose(pipe);
 			pipe = popen("pwd", "r");
