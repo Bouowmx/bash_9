@@ -37,7 +37,8 @@ int main() {
 				break;
 			}
 		}
-		free(input_2);		
+		free(input_2);
+		input[i + 1] = '\0';
 		printf("Input: %s\n", input);
 		if ((input[0] == 'c') && (input[1] == 'd')) {
 			input_2 = strdup(input);
@@ -47,9 +48,8 @@ int main() {
 		}
 		else if (strcmp(input, "exit") == 0) {return 0;}
 		else {
-			printf("Forking.\n");
 			pid_t pid = fork();
-			if (!pid) {execlp("ls", "ls", "-l", (char *) NULL);} //Strangely, using the condition "pid != 0" will cause incorrect forking. C is a real bitch sometimes.
+			if (!pid) {execlp(input, input, (char *) NULL);} //Strangely, using the condition "pid != 0" will cause incorrect forking. Additionally, a new line in input will result in "No such file or directory". C is a real bitch sometimes.
 			else {wait(NULL);}
 		}
 		printf("%s\n", strerror(errno));
