@@ -14,7 +14,7 @@ int main() {
 	char current_directory[PATH_MAX];
 	char input[1024];
 	char * input_2;
-	int i, status;
+	int i;
 	while (1) {
 		user = getpwuid(getuid())->pw_name;
 		gethostname(computer_name, sizeof(computer_name) / sizeof(char));
@@ -49,13 +49,10 @@ int main() {
 		else {
 			printf("Forking.\n");
 			pid_t pid = fork();
-			if (pid >= 0) {
-				printf("%s\n", strerror(errno));
-				execlp("ls", "ls", "-l", (char *) NULL);
-			}
-			else {wait(&status); printf("%s\n", strerror(errno)); printf("Execution complete.\n");}
+			if (!pid) {execlp("ls", "ls", "-l", (char *) NULL);} //Strangely, using the condition "pid != 0" will cause incorrect forking. C is a real bitch sometimes.
+			else {wait(NULL);}
 		}
-		printf("Looping.\n");
+		printf("%s\n", strerror(errno));
 	}
 	
 	return EXIT_SUCCESS;
