@@ -15,6 +15,7 @@ int main() {
 	char input[1024];
 	char * input_2;
 	int i;
+	printf("foo\n");
 	while (1) {
 		user = getpwuid(getuid())->pw_name;
 		gethostname(computer_name, sizeof(computer_name) / sizeof(char));
@@ -49,12 +50,13 @@ int main() {
 		else {
 			printf("Forking.\n");
 			pid_t pid = fork();
-			if (pid > 0) {wait(pid);}
-			else {
-				execlp(input, input, (char *) NULL);
+			if (pid >= 0) {
+				execlp("ls", "ls", "-l", (char *) NULL);
 				printf("%s\n", strerror(errno));
 			}
+			else {wait(NULL); printf("Execution complete.\n");}
 		}
+		printf("Looping.\n");
 	}
 	
 	return EXIT_SUCCESS;
