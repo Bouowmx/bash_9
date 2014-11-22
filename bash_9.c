@@ -14,8 +14,7 @@ int main() {
 	char current_directory[PATH_MAX];
 	char input[1024];
 	char * input_2;
-	int i;
-	printf("foo\n");
+	int i, status;
 	while (1) {
 		user = getpwuid(getuid())->pw_name;
 		gethostname(computer_name, sizeof(computer_name) / sizeof(char));
@@ -51,10 +50,10 @@ int main() {
 			printf("Forking.\n");
 			pid_t pid = fork();
 			if (pid >= 0) {
-				execlp("ls", "ls", "-l", (char *) NULL);
 				printf("%s\n", strerror(errno));
+				execlp("ls", "ls", "-l", (char *) NULL);
 			}
-			else {wait(NULL); printf("Execution complete.\n");}
+			else {wait(&status); printf("%s\n", strerror(errno)); printf("Execution complete.\n");}
 		}
 		printf("Looping.\n");
 	}
