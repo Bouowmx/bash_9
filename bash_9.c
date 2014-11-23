@@ -44,6 +44,7 @@ int main() {
 			input_2 = strdup(input);
 			strsep(&input_2, " ");
 			chdir(strsep(&input_2, " \n"));
+			free(input_2);
 			if (errno != 0) {printf("%s\n", strerror(errno));} //Strangely, building and running with Cygwin will cause this to print "Invalid or incomplete multibyte or wide character". Changing directories is not affected.
 		}
 		else if (strcmp(input, "exit") == 0) {return 0;}
