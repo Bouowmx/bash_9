@@ -16,12 +16,12 @@ char ** split(char * string, char * delimiters) { //Just like Python's split. Re
 	int i;
 	char * string_2;
 	for (string_2 = string, i = 0; string_2 != NULL; string_2 = strpbrk(++string_2, delimiters), i++) {}
-	printf("Result: %i\n", i);
+	char * string_3
 	char ** tokens = (char **) malloc(++i * sizeof(char *));
 	char * token;
 	int j;
-	for (string_2 = strdup(string), token = strsep(&string_2, delimiters), j = 0; j < i; token = strsep(&string_2, delimiters), j++) {tokens[j] = trim(token);}
-	for (j = 0; j < i; j++) {printf("%i: %s\n", j, tokens[j]);}
+	for (string_3 = string_2 = strdup(string), token = strsep(&string_2, delimiters), j = 0; j < i; token = strsep(&string_2, delimiters), j++) {tokens[j] = trim(token);}
+	free(string_3);
 	return tokens;
 }
 	
