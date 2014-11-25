@@ -77,7 +77,6 @@ int main() {
 			input_2 = strdup(input);
 			char * command = strsep(&input_2, " ");
 			char ** arguments = split(input_2, " ");
-			//for (
 			pid_t pid = fork();
 			if (!pid) {execvp(command, arguments);} //Strangely, using the condition "pid != 0" will cause incorrect forking. Additionally, a new line in input will result in "No such file or directory". Finally, entering a non-valid command will cause the child process to continue living.
 			else {wait(NULL);}
