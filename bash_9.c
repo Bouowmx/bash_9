@@ -14,13 +14,13 @@ char ** split(char * string, char * delimiters) { //Similar to Python's split. R
 	//Find the number of delimiters in string. The size of the array needed to hold the split string is the number of delimiters plus two (including the terminating null).
 	//About the increments: prefix will increment first and use that value, and suffix will use the current value and then increment.
 	int i;
-	char * string_2;
+	char * string_2, * string_3;
 	for (string_2 = string, i = 0; string_2 != NULL; string_2 = strpbrk(++string_2, delimiters), i++) {}
 	char ** tokens = (char **) malloc(++i * sizeof(char *));
 	char * token;
 	int j;
-	for (string_2 = strdup(string), token = strsep(&string_2, delimiters), j = 0; j < i; token = strsep(&string_2, delimiters), j++) {tokens[j] = (token != NULL) ? trim(token) : token;}
-	free(string_2);
+	for (string_3 = string_2 = strdup(string), token = strsep(&string_2, delimiters), j = 0; j < i; token = strsep(&string_2, delimiters), j++) {tokens[j] = (token != NULL) ? trim(token) : token;}
+	free(string_3);
 	return tokens;
 }
 	
@@ -53,7 +53,7 @@ int main() {
 	char computer_name[HOST_NAME_MAX];
 	char current_directory[PATH_MAX];
 	char input[1024];
-	char * input_2;
+	char * input_2, * input_3;
 	char * user;
 	while (1) {
 		user = getpwuid(getuid())->pw_name; //This is automatically freed.
@@ -63,7 +63,7 @@ int main() {
 		fgets(input, sizeof(input) / sizeof(char), stdin);
 		//Remove leading and trailing whitespace
 		trim(input);
-		printf("Input: %s\n", input);
+		printf("Input: \"%s\"\n", input);
 		if (strcmp(input, "") == 0) {continue;}
 		if ((input[0] == 'c') && (input[1] == 'd')) {
 			input_2 = strdup(input);
@@ -74,9 +74,11 @@ int main() {
 		}
 		else if (strcmp(input, "exit") == 0) {return 0;}
 		else {
-			input_2 = strdup(input);
+			input_3 = input_2 = strdup(input);
 			char * command = strsep(&input_2, " ");
 			char ** arguments = split(input, " ");
+			//free(input_3);
+			printf("%s\n", strerror(errno));
 			pid_t pid = fork();
 			if (!pid) { //Strangely, using the condition "pid != 0" will cause incorrect forking. Additionally, a new line in input will result in "No such file or directory".
 				int status = execvp(command, arguments);
@@ -90,4 +92,7 @@ int main() {
 	
 	return EXIT_SUCCESS;
 }
+
+//cat `echo "hi\n" * 500` - | ./bash_9.elf
+
 
